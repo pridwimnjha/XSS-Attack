@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>XSS Demo - Dark Mode (Safe)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      background-color: #334155;
+      color: #f8fafc;
+    }
+
+    input[type="button"] {
+      padding: 10px 20px;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+
+    input[type="button"]:hover {
+      background: #059669;
+    }
+
+    #output {
+      margin-top: 25px;
+      color: #f1f5f9;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>🛡️ XSS Demo - Safe Version</h2>
+
+    <form onsubmit="return false;">
+      <input type="text" id="name" placeholder="Type your name...">
+      <br>
+      <input type="button" value="Submit" onclick="showNameSafe()">
+    </form>
+
+    <div id="output"></div>
+  </div>
+
+  <footer>
+    ✅ This page uses input sanitization to prevent XSS attacks.
+  </footer>
+
+  <script>
+    // Escapes HTML special characters
+    function escapeHTML(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showNameSafe() {
+      const name = document.getElementById("name").value;
+      const safeName = escapeHTML(name);
+      document.getElementById("output").innerHTML = "Hello, " + safeName;
+    }
+  </script>
+
+</body>
+</html>
